@@ -1,19 +1,20 @@
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from './ui/sidebar'
-import { LayoutDashboard, ListChecks, CalendarClock, PanelLeft } from 'lucide-react'
-import { NavLink, useLocation } from 'react-router-dom'
+import { LayoutDashboard, ListChecks, PanelLeft, FilePlus, BadgeCheck, Hourglass, TimerOff } from 'lucide-react'
+import { Link, useLocation } from 'react-router-dom'
 import Logo from '../assets/Logo.png'
+import { cn } from '@/lib/utils';
 
 const AppSidebar = () => {
+    const location = useLocation();
     const { toggleSidebar } = useSidebar()
-    const location = useLocation()
 
     const navLinks = [
         { icon: LayoutDashboard, label: 'Dashboard', to: '/' },
         { icon: ListChecks, label: 'Tasks', to: '/tasks' },
-        { icon: ListChecks, label: 'Add Task', to: '/add-task' },
-        { icon: CalendarClock, label: 'Completed', to: '/completed' },
-        { icon: CalendarClock, label: 'Pending', to: '/pending' },
-        { icon: CalendarClock, label: 'Overdue', to: '/overdue' }
+        { icon: FilePlus, label: 'Add Task', to: '/add-task' },
+        { icon: BadgeCheck, label: 'Completed', to: '/completed' },
+        { icon: Hourglass, label: 'Pending', to: '/pending' },
+        { icon: TimerOff, label: 'Overdue', to: '/overdue' }
     ]
 
     return (
@@ -48,30 +49,40 @@ const AppSidebar = () => {
             <SidebarContent>
                 <SidebarMenu className='mt-7 gap-0'>
                     {navLinks.map((link) => {
-                        const isActive = location.pathname === link.to
+                        const isActive = location.pathname === link.to;
 
                         return (
                             <SidebarMenuItem
                                 key={link.to}
-                                className='group-data-[collapsible=icon]:flex group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:py-4 hover:bg-[#6C5CE7]/20 transition-all duration-300 ease-in-out relative'
+                                className={cn(
+                                    "group-data-[collapsible=icon]:flex group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:py-4 hover:bg-[#6C5CE7]/50 transition-all duration-300 ease-in-out",
+                                    isActive && "bg-[#6C5CE7]/20"
+                                )}
                             >
-                                <SidebarMenuButton asChild size='lg' className='w-full'>
-                                    <NavLink
+                                <SidebarMenuButton
+                                    asChild
+                                    size="lg"
+                                    className={cn(
+                                        "gap-4 p-8 hover:bg-[#6C5CE7]/50 group-data-[collapsible=icon]:flex group-data-[collapsible=icon]:justify-center rounded-none",
+                                        !isActive && "text-gray-500"
+                                    )}
+                                >
+                                    <Link
                                         to={link.to}
-                                        className={({ isActive }) =>
-                                        `flex items-center gap-4 p-8 rounded-none w-full ${
-                                            isActive
-                                                ? 'bg-[#6C5CE7]/20 text-gray-900 font-semibold'
-                                                : 'text-gray-500'
-                                            } group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:p-3`
-                                        }
+                                        className='relative flex items-center hover:bg-[#6C5CE7]/50'
                                     >
-                                        <link.icon className='w-5 h-5' />
-                                        <span className='group-data-[collapsible=icon]:hidden'>
+                                        <link.icon className={isActive ? "text-gray-700" : "text-gray-500"} />
+                                        <span
+                                            className={cn(
+                                                "font-medium text-md ml-4 group-data-[collapsible=icon]:hidden",
+                                                isActive ? "text-gray-700" : "text-gray-500"
+                                            )}
+                                        >
                                             {link.label}
                                         </span>
-                                    </NavLink>
+                                    </Link>
                                 </SidebarMenuButton>
+                                {isActive && <div className='absolute right-0 top-0 h-full w-[4px] bg-[#6C5CE7]/50' />}
                             </SidebarMenuItem>
                         )
                     })}

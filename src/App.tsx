@@ -1,6 +1,24 @@
-const App = () => {
+import { Routes, Route } from 'react-router-dom'
+import MainLayout from './layout/MainLayout'
+import Dashboard from './pages/Dashboard'
+import Tasks from './pages/Tasks'
+import AddTask from './pages/AddTask'
+import Completed from './pages/Completed'
+import Pending from './pages/Pending'
+import Overdue from './pages/Overdue'
+
+function App() {
   return (
-    <div>App</div>
+    <Routes>
+      <Route path="/" element={<MainLayout />}>
+        <Route path="/" element={<Dashboard />} />
+        <Route path="/tasks" element={<Tasks />} />
+        <Route path="/add-task" element={<AddTask />} />
+        <Route path="/completed" element={<Completed />} />
+        <Route path="/pending" element={<Pending />} />
+        <Route path="/overdue" element={<Overdue />} />
+      </Route>
+    </Routes>
   )
 }
 
