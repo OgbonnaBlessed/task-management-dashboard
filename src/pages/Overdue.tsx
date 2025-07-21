@@ -1,7 +1,7 @@
-const Overdue = () => {
-    return (
-        <div>Overdue</div>
-    )
-}
+import TaskList from "@/components/TaskList";
 
-export default Overdue
+const OverdueTasksPage = () => {
+  return <TaskList filter="overdue" title="Overdue Tasks" />;
+};
+
+export default OverdueTasksPage;
