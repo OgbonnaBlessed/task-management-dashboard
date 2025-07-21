@@ -11,17 +11,20 @@ const MainLayout = () => {
     const [pageTitle, setPageTitle] = useState('')
 
     useEffect(() => {
-        const path = location.pathname
-        const titles: Record<string, string> = {
-            '/': 'Dashboard',
-            '/tasks': 'Tasks',
-            '/add-task': 'Add Task',
-            '/completed': 'Completed Tasks',
-            '/pending': 'Pending Tasks',
-            '/overdue': 'Overdue Tasks',
-        }
-        setPageTitle(titles[path] || 'Task Dashboard')
-    }, [location.pathname])
+        const path = location.pathname;
+
+        let title = 'Task Dashboard';
+
+        if (path === '/') title = 'Dashboard';
+        else if (path === '/tasks') title = 'Tasks';
+        else if (path === '/add-task') title = 'Add Task';
+        else if (path === '/completed') title = 'Completed Tasks';
+        else if (path === '/pending') title = 'Pending Tasks';
+        else if (path === '/overdue') title = 'Overdue Tasks';
+        else if (path.startsWith('/edit/')) title = 'Edit Task';
+
+        setPageTitle(title);
+    }, [location.pathname]);
 
     return (
         <SidebarProvider>

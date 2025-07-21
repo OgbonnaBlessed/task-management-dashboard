@@ -6,6 +6,7 @@ import AddTask from './pages/AddTask'
 import Completed from './pages/Completed'
 import Pending from './pages/Pending'
 import Overdue from './pages/Overdue'
+import EditTask from './pages/EditTask'
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="/completed" element={<Completed />} />
         <Route path="/pending" element={<Pending />} />
         <Route path="/overdue" element={<Overdue />} />
+        <Route path="/edit/:id" element={<EditTask />} />
       </Route>
     </Routes>
   )

@@ -6,10 +6,11 @@ import type { Task } from "@/context/taskTypes";
 
 interface TaskListProps {
   filter: "all" | "completed" | "pending" | "overdue";
-  title: string;
+  title?: string;
+  showHeader?: boolean;
 }
 
-const TaskList: React.FC<TaskListProps> = ({ filter, title }) => {
+const TaskList: React.FC<TaskListProps> = ({ filter, title, showHeader = true }) => {
     const { tasks, dispatch } = useTaskContext();
     const [filteredTasks, setFilteredTasks] = useState<Task[]>([]);
     const [loading, setLoading] = useState(true);
@@ -19,7 +20,6 @@ const TaskList: React.FC<TaskListProps> = ({ filter, title }) => {
 
         const timer = setTimeout(() => {
         const today = new Date().toISOString().split("T")[0];
-
         let updated = [...tasks];
 
         if (filter === "completed") {
@@ -32,27 +32,27 @@ const TaskList: React.FC<TaskListProps> = ({ filter, title }) => {
 
         setFilteredTasks(updated);
             setLoading(false);
-        }, 5000); // simulate 5s loading
+        }, 500); // use shorter loading time in actual UI
 
         return () => clearTimeout(timer);
     }, [tasks, filter, dispatch]);
 
     return (
-        <div className="max-w-4xl mx-auto space-y-6 animate-fade-in">
-            <h1 className="text-2xl font-bold">{title}</h1>
+        <>
+            {loading && <LoadingSpinner />}
 
-            {loading ? (
-                <LoadingSpinner />
-            ) : filteredTasks.length === 0 ? (
-                <p className="text-muted-foreground text-center min-h-[24rem] flex items-center justify-center">
-                    No task found
-                </p>
-            ) : (
-                filteredTasks.map((task) => (
-                    <TaskCard key={task.id} task={task} />
-                ))
-            )}
-        </div>
+            <div className="max-w-4xl mx-auto space-y-6 animate-fade-in">
+                {showHeader && <h1 className="text-2xl font-bold">{title}</h1>}
+
+                {filteredTasks.length === 0 ? (
+                    <p className="text-muted-foreground text-center min-h-[24rem] flex items-center justify-center">
+                        No task found
+                    </p>
+                ) : (
+                    filteredTasks.map((task) => <TaskCard key={task.id} task={task} />)
+                )}
+            </div>
+        </>
     );
 };
 

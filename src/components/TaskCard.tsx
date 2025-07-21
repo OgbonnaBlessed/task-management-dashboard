@@ -7,6 +7,7 @@ import { useTaskContext } from "@/context/TaskContext"
 import { format } from "date-fns"
 import { toast } from "sonner"
 import type { Task } from "@/context/taskTypes"
+import { Link } from "react-router-dom"
 
 interface TaskCardProps {
   task: Task;
@@ -61,6 +62,18 @@ const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
                         {task.status === "completed" ? "✓ Done" : "Mark Done"}
                     </Toggle>
 
+                    <Link
+                        to={`/edit/${task.id}`}
+                    >
+                        <Button
+                            variant="outline"
+                            size="sm"
+                            className="cursor-pointer"
+                        >
+                            Edit
+                        </Button>
+                    </Link>
+
                     {/* Alert Dialog for Delete Confirmation */}
                     <AlertDialog>
                         <AlertDialogTrigger asChild>
@@ -80,8 +93,13 @@ const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
                                 </AlertDialogDescription>
                             </AlertDialogHeader>
                             <AlertDialogFooter>
-                                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                <AlertDialogAction onClick={handleDelete}>Delete</AlertDialogAction>
+                                <AlertDialogCancel className="cursor-pointer">Cancel</AlertDialogCancel>
+                                <AlertDialogAction 
+                                    onClick={handleDelete}
+                                    className="cursor-pointer"
+                                >
+                                    Delete
+                                </AlertDialogAction>
                             </AlertDialogFooter>
                         </AlertDialogContent>
                     </AlertDialog>
