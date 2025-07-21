@@ -3,6 +3,7 @@ import AppSidebar from '../components/AppSidebar'
 import { SidebarProvider } from '@/components/ui/sidebar'
 import Navbar from '@/components/Navbar'
 import { useEffect, useState } from 'react'
+import { TaskProvider } from '@/context/TaskContext'
 
 const MainLayout = () => {
     const location = useLocation()
@@ -23,15 +24,17 @@ const MainLayout = () => {
 
     return (
         <SidebarProvider>
-            <div className="flex w-full">
-                <AppSidebar />
-                <div className="min-h-screen flex flex-col transition-theme flex-1">
-                    <Navbar title={pageTitle} />
-                    <main className="flex-1 p-6 bg-background text-foreground transition-theme">
-                        <Outlet />
-                    </main>
+            <TaskProvider>
+                <div className="flex w-full">
+                    <AppSidebar />
+                    <div className="min-h-screen flex flex-col transition-theme flex-1">
+                        <Navbar title={pageTitle} />
+                        <main className="flex-1 p-6 bg-background text-foreground transition-theme">
+                            <Outlet />
+                        </main>
+                    </div>
                 </div>
-            </div>
+            </TaskProvider>
         </SidebarProvider>
     )
 }
