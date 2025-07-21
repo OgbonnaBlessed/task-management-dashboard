@@ -1,7 +1,7 @@
-const Pending = () => {
-    return (
-        <div>Pending</div>
-    )
-}
+import TaskList from "@/components/TaskList";
 
-export default Pending
+const PendingTasksPage = () => {
+  return <TaskList filter="pending" title="Pending Tasks" />;
+};
+
+export default PendingTasksPage;
