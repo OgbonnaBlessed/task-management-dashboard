@@ -4,6 +4,7 @@ import { SidebarProvider } from '@/components/ui/sidebar'
 import Navbar from '@/components/Navbar'
 import { useEffect, useState } from 'react'
 import { TaskProvider } from '@/context/TaskContext'
+import { Toaster } from "sonner";
 
 const MainLayout = () => {
     const location = useLocation()
@@ -34,6 +35,7 @@ const MainLayout = () => {
                         </main>
                     </div>
                 </div>
+                <Toaster richColors closeButton position="bottom-right" />
             </TaskProvider>
         </SidebarProvider>
     )
