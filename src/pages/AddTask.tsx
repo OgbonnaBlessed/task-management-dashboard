@@ -20,7 +20,7 @@ const AddTask = () => {
 
     const [title, setTitle] = useState("")
     const [description, setDescription] = useState("")
-    const [status, setStatus] = useState<"pending" | "completed">("pending")
+    const [status, setStatus] = useState<"pending" | "completed" | "overdue">("pending")
     const [priority, setPriority] = useState<"low" | "medium" | "high">("medium")
     const [dueDate, setDueDate] = useState("")
 
@@ -80,7 +80,7 @@ const AddTask = () => {
             <div className="grid grid-cols-2 gap-4">
                 <div>
                 <label className="block mb-2 text-sm font-medium">Status</label>
-                    <Select value={status} onValueChange={(v) => setStatus(v as "pending" | "completed")}>
+                    <Select value={status} onValueChange={(v) => setStatus(v as "pending" | "completed" | "overdue")}>
                         <SelectTrigger>
                             <SelectValue placeholder="Select status" />
                         </SelectTrigger>
