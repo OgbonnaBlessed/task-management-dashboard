@@ -1,7 +1,7 @@
-const Completed = () => {
-    return (
-        <div>Completed</div>
-    )
-}
+import TaskList from "@/components/TaskList";
 
-export default Completed
+const CompletedTasksPage = () => {
+  return <TaskList filter="completed" title="Completed Tasks" />;
+};
+
+export default CompletedTasksPage;
