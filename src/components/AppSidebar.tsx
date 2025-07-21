@@ -71,11 +71,10 @@ const AppSidebar = () => {
                                         to={link.to}
                                         className='relative flex items-center hover:bg-[#6C5CE7]/50'
                                     >
-                                        <link.icon className={isActive ? "text-gray-700" : "text-gray-500"} />
+                                        <link.icon />
                                         <span
                                             className={cn(
-                                                "font-medium text-md ml-4 group-data-[collapsible=icon]:hidden",
-                                                isActive ? "text-gray-700" : "text-gray-500"
+                                                "font-medium text-md ml-4 group-data-[collapsible=icon]:hidden"
                                             )}
                                         >
                                             {link.label}
