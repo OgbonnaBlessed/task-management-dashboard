@@ -10,22 +10,22 @@ const Tasks = () => {
     const [filteredTasks, setFilteredTasks] = useState<Task[]>([]);
 
     useEffect(() => {
-    const today = new Date().toISOString().split("T")[0];
+        const today = new Date().toISOString().split("T")[0];
 
-    let updated = [...tasks];
+        let updated = [...tasks];
 
-    if (filter === "completed") {
-        updated = updated.filter((t) => t.status === "completed");
-    } else if (filter === "pending") {
-        updated = updated.filter((t) => t.status === "pending");
-    } else if (filter === "overdue") {
-        updated = updated.filter((t) => t.status === "pending" && t.dueDate < today);
-    } else {
-        // 👇 This handles the "all" case
-        updated = [...tasks];
-    }
+        if (filter === "completed") {
+            updated = updated.filter((t) => t.status === "completed");
+        } else if (filter === "pending") {
+            updated = updated.filter((t) => t.status === "pending");
+        } else if (filter === "overdue") {
+            updated = updated.filter((t) => t.status === "pending" && t.dueDate < today);
+        } else {
+            // 👇 This handles the "all" case
+            updated = [...tasks];
+        }
 
-    setFilteredTasks(updated);
+        setFilteredTasks(updated);
     }, [filter, tasks]);
 
     const handleFilterChange = (value: string) => {
