@@ -29,6 +29,8 @@ export const taskReducer = (state: TaskState, action: TaskAction): TaskState => 
             return { ...state, loading: action.payload };
         case 'SET_ERROR':
             return { ...state, error: action.payload };
+        case "REORDER_TASKS":
+            return { ...state, tasks: action.payload };
         default:
             return state;
     }

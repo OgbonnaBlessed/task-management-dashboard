@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Toggle } from "@/components/ui/toggle"
@@ -8,12 +9,15 @@ import { format } from "date-fns"
 import { toast } from "sonner"
 import type { Task } from "@/context/taskTypes"
 import { Link } from "react-router-dom"
+import { GripVertical } from "lucide-react"
 
 interface TaskCardProps {
   task: Task;
+  dragAttributes?: any;
+  dragListeners?: any;
 }
 
-const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
+const TaskCard: React.FC<TaskCardProps> = ({ task, dragAttributes, dragListeners }) => {
     const { dispatch } = useTaskContext();
 
     const today = new Date().toISOString().split("T")[0];
@@ -22,20 +26,33 @@ const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
     const toggleStatus = () => {
         dispatch({ type: "TOGGLE_STATUS", payload: task.id });
         toast.success("Task status updated");
-    }
+    };
 
     const handleDelete = () => {
         dispatch({ type: "DELETE_TASK", payload: task.id });
         toast.success("Task deleted");
-    }
+    };
 
     return (
         <Card className="transition-all">
             <CardHeader className="flex flex-row justify-between items-start">
-                <div>
-                    <CardTitle>{task.title}</CardTitle>
-                    <p className="text-sm text-muted-foreground">{task.description}</p>
+                <div className="flex items-start gap-2">
+                    {/* Drag Handle */}
+                    <div
+                        className="cursor-grab p-1 rounded hover:bg-muted"
+                        {...(dragListeners ?? {})}
+                        {...(dragAttributes ?? {})}
+                    >
+                        <GripVertical className="w-4 h-4 text-muted-foreground" />
+                    </div>
+
+                    {/* Title + Desc */}
+                    <div>
+                        <CardTitle>{task.title}</CardTitle>
+                        <p className="text-sm text-muted-foreground">{task.description}</p>
+                    </div>
                 </div>
+
                 <Badge 
                     variant={
                         task.status === "completed" 
@@ -48,10 +65,12 @@ const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
                     {task.status === "completed" ? "Completed" : isOverdue ? "Overdue" : "Pending"}
                 </Badge>
             </CardHeader>
+
             <CardContent className="flex justify-between items-center">
                 <div className="text-sm text-muted-foreground">
                     Due: {format(new Date(task.dueDate), "PPP")}
                 </div>
+
                 <div className="flex gap-2">
                     <Toggle
                         pressed={task.status === "completed"}
@@ -62,26 +81,15 @@ const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
                         {task.status === "completed" ? "✓ Done" : "Mark Done"}
                     </Toggle>
 
-                    <Link
-                        to={`/edit/${task.id}`}
-                    >
-                        <Button
-                            variant="outline"
-                            size="sm"
-                            className="cursor-pointer"
-                        >
+                    <Link to={`/edit/${task.id}`}>
+                        <Button variant="outline" size="sm" className="cursor-pointer">
                             Edit
                         </Button>
                     </Link>
 
-                    {/* Alert Dialog for Delete Confirmation */}
                     <AlertDialog>
                         <AlertDialogTrigger asChild>
-                            <Button
-                                variant="destructive"
-                                size="sm"
-                                className="cursor-pointer"
-                            >
+                            <Button variant="destructive" size="sm" className="cursor-pointer">
                                 Delete
                             </Button>
                         </AlertDialogTrigger>
@@ -94,10 +102,7 @@ const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
                             </AlertDialogHeader>
                             <AlertDialogFooter>
                                 <AlertDialogCancel className="cursor-pointer">Cancel</AlertDialogCancel>
-                                <AlertDialogAction 
-                                    onClick={handleDelete}
-                                    className="cursor-pointer"
-                                >
+                                <AlertDialogAction onClick={handleDelete} className="cursor-pointer">
                                     Delete
                                 </AlertDialogAction>
                             </AlertDialogFooter>
@@ -106,7 +111,7 @@ const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
                 </div>
             </CardContent>
         </Card>
-    )
-}
+    );
+};
 
 export default TaskCard;

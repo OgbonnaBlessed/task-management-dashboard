@@ -28,4 +28,5 @@ export type TaskAction =
   | { type: 'SET_FILTER'; payload: TaskFilter }
   | { type: 'SET_LOADING'; payload: boolean }
   | { type: 'SET_ERROR'; payload: string | null }
-  | { type: 'LOAD_TASKS'; payload: Task[] };
+  | { type: 'LOAD_TASKS'; payload: Task[] }
+  | { type: 'REORDER_TASKS'; payload: Task[] }
