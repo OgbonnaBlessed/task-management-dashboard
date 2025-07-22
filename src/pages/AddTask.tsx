@@ -13,23 +13,52 @@ import { useTaskContext } from "@/context/TaskContext"
 import { toast } from "sonner"
 import { useNavigate } from "react-router-dom"
 import { v4 as uuidv4 } from "uuid";
+import { Loader2 } from "lucide-react"
 
 const AddTask = () => {
-    const { dispatch } = useTaskContext()
+    const { tasks, dispatch } = useTaskContext()
     const navigate = useNavigate();
 
     const [title, setTitle] = useState("")
     const [description, setDescription] = useState("")
-    const [status, setStatus] = useState<"pending" | "completed" | "overdue">("pending")
+    const [status, setStatus] = useState<"pending" | "completed">("pending")
     const [priority, setPriority] = useState<"low" | "medium" | "high">("medium")
-    const [dueDate, setDueDate] = useState("")
+    const [dueDate, setDueDate] = useState("");
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault()
+        e.preventDefault();
+
+        if (isSubmitting) return;
 
         if (!title || !description || !dueDate) {
             toast.error("Kindly fill all fields")
             return
+        }
+
+        if (!title.trim() || !description.trim()) {
+            toast.error("All fields must be properly filled");
+            return;
+        }
+
+        // Check if task with same title and due date exists
+        const taskExists = tasks.some(
+            (task) => task.title === title && task.dueDate === dueDate
+        );
+
+        if (taskExists) {
+            toast.error("A task with the same title and due date already exist");
+            return;
+        }
+
+        if (title.length > 50) {
+            toast.error("Title is too long (max 50 characters)");
+            return;
+        }
+
+        if (description.length > 200) {
+            toast.error("Description is too long (max 200 characters)");
+            return;
         }
 
         const newTask = {
@@ -42,6 +71,7 @@ const AddTask = () => {
             createdAt: new Date().toISOString(),
         }
 
+        setIsSubmitting(true);
         dispatch({ type: "ADD_TASK", payload: newTask })
         toast.success("Task added successfully")
 
@@ -52,6 +82,9 @@ const AddTask = () => {
         setPriority("medium")
         setDueDate("")
 
+        setTimeout(() => {
+            setIsSubmitting(false);
+        }, 1700);
         setTimeout(() => {
             navigate('/tasks');
         }, 2000);
@@ -80,14 +113,16 @@ const AddTask = () => {
             <div className="grid grid-cols-2 gap-4">
                 <div>
                 <label className="block mb-2 text-sm font-medium">Status</label>
-                    <Select value={status} onValueChange={(v) => setStatus(v as "pending" | "completed" | "overdue")}>
+                    <Select 
+                        value={status} 
+                        onValueChange={(v) => setStatus(v as "pending" | "completed")}
+                    >
                         <SelectTrigger>
                             <SelectValue placeholder="Select status" />
                         </SelectTrigger>
                         <SelectContent>
                             <SelectItem value="pending">Pending</SelectItem>
                             <SelectItem value="completed">Completed</SelectItem>
-                            <SelectItem value="overdue">Overdue</SelectItem>
                         </SelectContent>
                     </Select>
                 </div>
@@ -116,14 +151,22 @@ const AddTask = () => {
                     type="date"
                     value={dueDate}
                     onChange={(e) => setDueDate(e.target.value)}
+                    min={new Date().toISOString().split("T")[0]}
                 />
             </div>
 
             <Button 
                 type="submit" 
                 className="w-full cursor-pointer"
+                disabled={isSubmitting}
             >
-                Add Task
+                {isSubmitting ? (
+                    <>
+                        <Loader2 className="w-4 h-4 mr-2 animate-spin" /> Adding Task...
+                    </>
+                ) : (
+                    "Add Task"
+                )}
             </Button>
         </form>
     )

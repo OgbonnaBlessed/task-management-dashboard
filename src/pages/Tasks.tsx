@@ -2,6 +2,7 @@
 import { useTaskContext } from "@/context/TaskContext";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import TaskList from "@/components/TaskList";
+import { useEffect } from "react";
 
 const Tasks = () => {
     const { filter, dispatch } = useTaskContext();
@@ -9,6 +10,11 @@ const Tasks = () => {
     const handleFilterChange = (value: string) => {
         dispatch({ type: "SET_FILTER", payload: value as any });
     };
+
+    // Reset filter to 'all' when the Tasks page loads
+    useEffect(() => {
+        dispatch({ type: "SET_FILTER", payload: "all" });
+    }, [dispatch]);
 
     return (
         <>
@@ -27,7 +33,7 @@ const Tasks = () => {
                 </Select>
             </div>
 
-            <TaskList filter={filter} showHeader={false} />
+            <TaskList filter={filter} showHeader={true} />
         </>
     );
 };

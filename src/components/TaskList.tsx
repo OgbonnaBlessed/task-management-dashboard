@@ -18,6 +18,7 @@ import {
 } from "@dnd-kit/sortable";
 
 import SortableTaskCard from "./SortableTaskCard"; // <-- Create this wrapper component
+import { Input } from "./ui/input";
 
 interface TaskListProps {
   filter: "all" | "completed" | "pending" | "overdue";
@@ -29,13 +30,14 @@ const TaskList: React.FC<TaskListProps> = ({ filter, title, showHeader = true })
     const { tasks, dispatch } = useTaskContext();
     const [filteredTasks, setFilteredTasks] = useState<Task[]>([]);
     const [loading, setLoading] = useState(true);
+    const [searchTerm, setSearchTerm] = useState('');
 
     const sensors = useSensors(useSensor(PointerSensor));
 
     useEffect(() => {
-        dispatch({ type: "SET_FILTER", payload: filter });
+    dispatch({ type: "SET_FILTER", payload: filter });
 
-        const timer = setTimeout(() => {
+    const timer = setTimeout(() => {
         const today = new Date().toISOString().split("T")[0];
         let updated = [...tasks];
 
@@ -47,12 +49,22 @@ const TaskList: React.FC<TaskListProps> = ({ filter, title, showHeader = true })
             updated = updated.filter((t) => t.status === "pending" && t.dueDate < today);
         }
 
-        setFilteredTasks(updated);
-            setLoading(false);
-        }, 500);
+        // Apply search filtering by title and description
+        if (searchTerm.trim()) {
+            const term = searchTerm.toLowerCase();
+            updated = updated.filter(
+                (t) =>
+                t.title.toLowerCase().includes(term) ||
+                t.description.toLowerCase().includes(term)
+            );
+        }
 
-        return () => clearTimeout(timer);
-    }, [tasks, filter, dispatch]);
+        setFilteredTasks(updated);
+        setLoading(false);
+    }, 500);
+
+    return () => clearTimeout(timer);
+    }, [tasks, filter, dispatch, searchTerm]);
 
     const handleDragEnd = (event: any) => {
         const { active, over } = event;
@@ -70,7 +82,17 @@ const TaskList: React.FC<TaskListProps> = ({ filter, title, showHeader = true })
         <>
             {loading && <LoadingSpinner />}
             <div className="max-w-4xl mx-auto space-y-6 animate-fade-in">
-                {showHeader && <h1 className="text-2xl font-bold">{title}</h1>}
+                {showHeader && (
+                    <>
+                        <h1 className="text-2xl font-bold">{title}</h1>
+                        <Input
+                            type="text"
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            placeholder="Search by title or description..."
+                        />
+                    </>
+                )}
                 {filteredTasks.length === 0 ? (
                     <p className="text-muted-foreground text-center min-h-[24rem] flex items-center justify-center">
                         No task found

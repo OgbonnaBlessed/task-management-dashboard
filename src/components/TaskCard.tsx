@@ -49,7 +49,9 @@ const TaskCard: React.FC<TaskCardProps> = ({ task, dragAttributes, dragListeners
                     {/* Title + Desc */}
                     <div>
                         <CardTitle>{task.title}</CardTitle>
-                        <p className="text-sm text-muted-foreground">{task.description}</p>
+                        <p className="text-sm text-muted-foreground break-words whitespace-pre-wrap max-w-[250px] sm:max-w-xs md:max-w-sm lg:max-w-md">
+                            {task.description}
+                        </p>
                     </div>
                 </div>
 
