@@ -1,6 +1,6 @@
 import { Outlet, useLocation } from 'react-router-dom'
 import AppSidebar from '../components/AppSidebar'
-import { SidebarProvider } from '@/components/ui/sidebar'
+import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
 import Navbar from '@/components/Navbar'
 import { useEffect, useState } from 'react'
 import { TaskProvider } from '@/context/TaskContext'
@@ -31,9 +31,10 @@ const MainLayout = () => {
             <TaskProvider>
                 <div className="flex w-full">
                     <AppSidebar />
-                    <div className="min-h-screen flex flex-col transition-theme flex-1">
+                    <div className="min-h-screen w-full flex flex-col transition-theme flex-1 relative">
+                        <SidebarTrigger className='fixed top-12 left-5 bg-background/50 rounded-full'/>
                         <Navbar title={pageTitle} />
-                        <main className="flex-1 p-6 bg-background text-foreground transition-theme">
+                        <main className="flex-1 w-full p-6 bg-background text-foreground transition-theme">
                             <Outlet />
                         </main>
                     </div>

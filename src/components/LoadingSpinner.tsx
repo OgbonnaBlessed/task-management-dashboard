@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 export const LoadingSpinner = ({ className }: { className?: string }) => (
   <div
     className={cn(
-      "fixed inset-0 z-[9999] flex items-center justify-center bg-black/50",
+      "absolute inset-0 z-[9999] flex items-center justify-center bg-black/50",
       className
     )}
   >
