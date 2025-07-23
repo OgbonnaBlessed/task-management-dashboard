@@ -35,11 +35,11 @@ const TaskCard: React.FC<TaskCardProps> = ({ task, dragAttributes, dragListeners
 
     return (
         <Card className="transition-all">
-            <CardHeader className="flex md:flex-row flex-col max-md:gap-2 justify-between items-start">
+            <CardHeader className="flex md:flex-row flex-col-reverse max-md:gap-2 justify-between items-start">
                 <div className="flex items-start gap-2">
                     {/* Drag Handle */}
                     <div
-                        className="cursor-grab p-1 rounded hover:bg-muted"
+                        className="cursor-grab active:cursor-grabbing p-1 rounded hover:bg-muted"
                         {...(dragListeners ?? {})}
                         {...(dragAttributes ?? {})}
                     >
@@ -63,6 +63,7 @@ const TaskCard: React.FC<TaskCardProps> = ({ task, dragAttributes, dragListeners
                                 ? "destructive" 
                                 : "secondary"
                     }
+                    className="max-md:self-end"
                 >
                     {task.status === "completed" ? "Completed" : isOverdue ? "Overdue" : "Pending"}
                 </Badge>

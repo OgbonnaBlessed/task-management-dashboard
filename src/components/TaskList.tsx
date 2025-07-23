@@ -7,6 +7,7 @@ import {
   DndContext,
   closestCenter,
   PointerSensor,
+  TouchSensor,
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
@@ -45,7 +46,15 @@ const TaskList: React.FC<TaskListProps> = ({ filter, title, showHeader = true })
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState("");
 
-    const sensors = useSensors(useSensor(PointerSensor));
+    const sensors = useSensors(
+        useSensor(PointerSensor),
+        useSensor(TouchSensor, {
+            activationConstraint: {
+                delay: 5000,
+                tolerance: 5,
+            },
+        })
+    );
 
     useEffect(() => {
         dispatch({ type: "SET_FILTER", payload: filter });
