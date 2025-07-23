@@ -13,6 +13,21 @@ import {
 } from "@/components/ui/select";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
+import { motion } from "framer-motion";
+import type { Variants } from "framer-motion";
+
+const fadeInUp: Variants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: (i: number) => ({
+        opacity: 1,
+        y: 0,
+        transition: {
+            delay: i * 0.08,
+            duration: 0.4,
+            ease: [0.42, 0, 0.58, 1], // cubic-bezier for easeOut
+        },
+    }),
+};
 
 const EditTask = () => {
     const { id } = useParams();
@@ -113,84 +128,95 @@ const EditTask = () => {
     }
 
     return (
-        <form onSubmit={handleSubmit} className="max-w-xl mx-auto space-y-6">
-            <div>
+        <motion.form 
+            onSubmit={handleSubmit} 
+            className="max-w-xl mx-auto space-y-6"
+            initial="hidden"
+            animate="visible"
+        >
+            <motion.div variants={fadeInUp} custom={0}>
                 <label className="block mb-2 text-sm font-medium">Title</label>
                 <Input
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                     placeholder="Enter task title"
                 />
-            </div>
+            </motion.div>
 
-            <div>
+            <motion.div variants={fadeInUp} custom={1}>
                 <label className="block mb-2 text-sm font-medium">Description</label>
                 <Textarea
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                     placeholder="Enter task description"
                 />
-            </div>
+            </motion.div>
 
-        <div className="grid grid-cols-2 gap-4">
-            <div>
-                <label className="block mb-2 text-sm font-medium">Status</label>
-                <Select
-                    value={status}
-                    onValueChange={(v) => setStatus(v as "pending" | "completed")}
+            <motion.div 
+                className="grid grid-cols-2 gap-4"
+                variants={fadeInUp}
+                custom={2}
+            >
+                <div>
+                    <label className="block mb-2 text-sm font-medium">Status</label>
+                    <Select
+                        value={status}
+                        onValueChange={(v) => setStatus(v as "pending" | "completed")}
+                    >
+                        <SelectTrigger>
+                        <SelectValue placeholder="Select status" />
+                        </SelectTrigger>
+                        <SelectContent>
+                        <SelectItem value="pending">Pending</SelectItem>
+                        <SelectItem value="completed">Completed</SelectItem>
+                        </SelectContent>
+                    </Select>
+                </div>
+
+                <div>
+                    <label className="block mb-2 text-sm font-medium">Priority</label>
+                    <Select
+                        value={priority}
+                        onValueChange={(v) => setPriority(v as "low" | "medium" | "high")}
+                    >
+                        <SelectTrigger>
+                            <SelectValue placeholder="Select priority" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="low">Low</SelectItem>
+                            <SelectItem value="medium">Medium</SelectItem>
+                            <SelectItem value="high">High</SelectItem>
+                        </SelectContent>
+                    </Select>
+                </div>
+            </motion.div>
+
+            <motion.div variants={fadeInUp} custom={3}>
+                <label className="block mb-2 text-sm font-medium">Due Date</label>
+                <Input
+                    type="date"
+                    value={dueDate}
+                    onChange={(e) => setDueDate(e.target.value)}
+                    min={new Date().toISOString().split("T")[0]}
+                />
+            </motion.div>
+
+            <motion.div variants={fadeInUp} custom={4}>
+                <Button
+                    type="submit"
+                    className="w-full cursor-pointer"
+                    disabled={isSubmitting}
                 >
-                    <SelectTrigger>
-                    <SelectValue placeholder="Select status" />
-                    </SelectTrigger>
-                    <SelectContent>
-                    <SelectItem value="pending">Pending</SelectItem>
-                    <SelectItem value="completed">Completed</SelectItem>
-                    </SelectContent>
-                </Select>
-            </div>
-
-            <div>
-                <label className="block mb-2 text-sm font-medium">Priority</label>
-                <Select
-                    value={priority}
-                    onValueChange={(v) => setPriority(v as "low" | "medium" | "high")}
-                >
-                    <SelectTrigger>
-                        <SelectValue placeholder="Select priority" />
-                    </SelectTrigger>
-                    <SelectContent>
-                        <SelectItem value="low">Low</SelectItem>
-                        <SelectItem value="medium">Medium</SelectItem>
-                        <SelectItem value="high">High</SelectItem>
-                    </SelectContent>
-                </Select>
-            </div>
-        </div>
-
-        <div>
-            <label className="block mb-2 text-sm font-medium">Due Date</label>
-            <Input
-                type="date"
-                value={dueDate}
-                onChange={(e) => setDueDate(e.target.value)}
-                min={new Date().toISOString().split("T")[0]}
-            />
-        </div>
-
-        <Button
-            type="submit"
-            className="w-full cursor-pointer"
-            disabled={isSubmitting}
-        >
-            {isSubmitting ? (
-                <>
-                    <Loader2 className="w-4 h-4 mr-2 animate-spin" /> Saving Changes...
-                </>
-            ) : (
-                "Save Changes"
-            )}
-        </Button>
-        </form>
+                    {isSubmitting ? (
+                        <>
+                            <Loader2 className="w-4 h-4 mr-2 animate-spin" /> Saving Changes...
+                        </>
+                    ) : (
+                        "Save Changes"
+                    )}
+                </Button>
+            </motion.div>
+        </motion.form>
     );
 };
 

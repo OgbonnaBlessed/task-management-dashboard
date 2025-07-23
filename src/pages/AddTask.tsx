@@ -14,6 +14,21 @@ import { toast } from "sonner"
 import { useNavigate } from "react-router-dom"
 import { v4 as uuidv4 } from "uuid";
 import { Loader2 } from "lucide-react"
+import { motion } from "framer-motion";
+import type { Variants } from "framer-motion";
+
+const fadeInUp: Variants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: (i: number) => ({
+        opacity: 1,
+        y: 0,
+        transition: {
+            delay: i * 0.08,
+            duration: 0.4,
+            ease: [0.42, 0, 0.58, 1], // cubic-bezier for easeOut
+        },
+    }),
+};
 
 const AddTask = () => {
     const { tasks, dispatch } = useTaskContext()
@@ -91,28 +106,37 @@ const AddTask = () => {
     }
 
     return (
-        <form onSubmit={handleSubmit} className="max-w-xl mx-auto space-y-6">
-            <div>
+        <motion.form 
+            onSubmit={handleSubmit} 
+            className="max-w-xl mx-auto space-y-6"
+            initial="hidden"
+            animate="visible"
+        >
+            <motion.div variants={fadeInUp} custom={0}>
                 <label className="block mb-2 text-sm font-medium">Title</label>
                 <Input
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                     placeholder="Enter task title"
                 />
-            </div>
+            </motion.div>
 
-            <div>
+            <motion.div variants={fadeInUp} custom={1}>
                 <label className="block mb-2 text-sm font-medium">Description</label>
                 <Textarea
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                     placeholder="Enter task description"
                 />
-            </div>
+            </motion.div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <motion.div 
+                className="grid grid-cols-2 gap-4"
+                variants={fadeInUp}
+                custom={2}
+            >
                 <div>
-                <label className="block mb-2 text-sm font-medium">Status</label>
+                    <label className="block mb-2 text-sm font-medium">Status</label>
                     <Select 
                         value={status} 
                         onValueChange={(v) => setStatus(v as "pending" | "completed")}
@@ -128,7 +152,7 @@ const AddTask = () => {
                 </div>
 
                 <div>
-                <label className="block mb-2 text-sm font-medium">Priority</label>
+                    <label className="block mb-2 text-sm font-medium">Priority</label>
                     <Select 
                         value={priority} 
                         onValueChange={(v) => setPriority(v as "low" | "medium" | "high")}
@@ -143,9 +167,9 @@ const AddTask = () => {
                         </SelectContent>
                     </Select>
                 </div>
-            </div>
+            </motion.div>
 
-            <div>
+            <motion.div variants={fadeInUp} custom={3}>
                 <label className="block mb-2 text-sm font-medium">Due Date</label>
                 <Input
                     type="date"
@@ -153,22 +177,24 @@ const AddTask = () => {
                     onChange={(e) => setDueDate(e.target.value)}
                     min={new Date().toISOString().split("T")[0]}
                 />
-            </div>
+            </motion.div>
 
-            <Button 
-                type="submit" 
-                className="w-full cursor-pointer"
-                disabled={isSubmitting}
-            >
-                {isSubmitting ? (
-                    <>
-                        <Loader2 className="w-4 h-4 mr-2 animate-spin" /> Adding Task...
-                    </>
-                ) : (
-                    "Add Task"
-                )}
-            </Button>
-        </form>
+            <motion.div variants={fadeInUp} custom={4}>
+                <Button 
+                    type="submit" 
+                    className="w-full cursor-pointer"
+                    disabled={isSubmitting}
+                >
+                    {isSubmitting ? (
+                        <>
+                            <Loader2 className="w-4 h-4 mr-2 animate-spin" /> Adding Task...
+                        </>
+                    ) : (
+                        "Add Task"
+                    )}
+                </Button>
+            </motion.div>
+        </motion.form>
     )
 }
 
