@@ -128,9 +128,13 @@ const TaskList: React.FC<TaskListProps> = ({ filter, title, showHeader = true })
                 )}
 
                 {filteredTasks.length === 0 ? (
-                    <p className="text-muted-foreground text-center min-h-[24rem] flex items-center justify-center">
+                    <motion.p 
+                        variants={fadeInUp} 
+                        custom={2}
+                        className="text-muted-foreground text-center min-h-[24rem] flex items-center justify-center"
+                    >
                         No task found
-                    </p>
+                    </motion.p>
                 ) : (
                     <DndContext
                         sensors={sensors}

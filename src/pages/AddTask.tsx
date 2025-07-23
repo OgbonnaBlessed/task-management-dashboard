@@ -16,6 +16,12 @@ import { v4 as uuidv4 } from "uuid";
 import { Loader2 } from "lucide-react"
 import { motion } from "framer-motion";
 import type { Variants } from "framer-motion";
+import { CalendarIcon } from "lucide-react"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import { Calendar } from "@/components/ui/calendar"
+import { Button as ShadButton } from "@/components/ui/button"
+import { cn } from "@/lib/utils"
+import { format } from "date-fns"
 
 const fadeInUp: Variants = {
     hidden: { opacity: 0, y: 20 },
@@ -173,12 +179,33 @@ const AddTask = () => {
 
             <motion.div variants={fadeInUp} custom={3}>
                 <label className="block mb-2 text-sm font-medium">Due Date</label>
-                <Input
-                    type="date"
-                    value={dueDate}
-                    onChange={(e) => setDueDate(e.target.value)}
-                    min={new Date().toISOString().split("T")[0]}
-                />
+                <Popover>
+                    <PopoverTrigger asChild>
+                        <ShadButton
+                            variant="outline"
+                            className={cn(
+                                "w-full justify-start text-left font-normal",
+                                !dueDate && "text-muted-foreground"
+                            )}
+                        >
+                            <CalendarIcon className="mr-2 h-4 w-4" />
+                            {dueDate ? format(new Date(dueDate), "PPP") : "Pick a date"}
+                        </ShadButton>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0">
+                        <Calendar
+                            mode="single"
+                            selected={dueDate ? new Date(dueDate) : undefined}
+                            onSelect={(date) => {
+                                if (date) {
+                                    const localDate = date.toLocaleDateString("en-CA"); // Ensures correct date
+                                    setDueDate(localDate);
+                                }
+                            }}
+                            disabled={(date) => date < new Date(new Date().setHours(0, 0, 0, 0))}
+                        />
+                    </PopoverContent>
+                </Popover>
             </motion.div>
 
             <motion.div variants={fadeInUp} custom={4}>
