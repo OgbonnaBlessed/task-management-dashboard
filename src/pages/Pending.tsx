@@ -1,4 +1,4 @@
-import TaskList from "@/components/TaskList";
+import TaskList from "@/components/shared/TaskList";
 
 const PendingTasksPage = () => {
   return <TaskList filter="pending" title="Pending Tasks" />;

@@ -1,4 +1,4 @@
-import TaskList from "@/components/TaskList";
+import TaskList from "@/components/shared/TaskList";
 
 const OverdueTasksPage = () => {
   return <TaskList filter="overdue" title="Overdue Tasks" />;

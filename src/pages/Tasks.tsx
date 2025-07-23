@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useTaskContext } from "@/context/TaskContext";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import TaskList from "@/components/TaskList";
+import TaskList from "@/components/shared/TaskList";
 import { useEffect } from "react";
 
 const Tasks = () => {

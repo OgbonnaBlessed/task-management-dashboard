@@ -1,7 +1,7 @@
-import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from './ui/sidebar'
+import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from '../ui/sidebar'
 import { LayoutDashboard, ListChecks, PanelLeft, FilePlus, BadgeCheck, Hourglass, TimerOff } from 'lucide-react'
 import { Link, useLocation } from 'react-router-dom'
-import Logo from '../assets/Logo.png'
+import Logo from '../../assets/Logo.png'
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
 

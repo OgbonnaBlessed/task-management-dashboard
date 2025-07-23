@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from "react";
 import { useTaskContext } from "@/context/TaskContext";
-import { LoadingSpinner } from "@/components/LoadingSpinner";
+import { LoadingSpinner } from "@/components/shared/LoadingSpinner";
 import type { Task } from "@/context/taskTypes";
 import {
   DndContext,
@@ -17,7 +17,7 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import SortableTaskCard from "./SortableTaskCard";
-import { Input } from "./ui/input";
+import { Input } from "../ui/input";
 import { motion, AnimatePresence } from "framer-motion";
 import type { Variants } from "framer-motion";
 

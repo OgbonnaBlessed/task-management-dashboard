@@ -1,7 +1,7 @@
 import { Outlet, useLocation } from 'react-router-dom'
-import AppSidebar from '../components/AppSidebar'
+import AppSidebar from '../components/shared/AppSidebar'
 import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
-import Navbar from '@/components/Navbar'
+import Navbar from '@/components/shared/Navbar'
 import { useEffect, useState } from 'react'
 import { TaskProvider } from '@/context/TaskContext'
 import { Toaster } from "sonner";
