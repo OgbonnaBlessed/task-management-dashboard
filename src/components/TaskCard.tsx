@@ -39,7 +39,7 @@ const TaskCard: React.FC<TaskCardProps> = ({ task, dragAttributes, dragListeners
                 <div className="flex items-start gap-2">
                     {/* Drag Handle */}
                     <div
-                        className="cursor-grab active:cursor-grabbing p-1 rounded hover:bg-muted"
+                        className="touch-none cursor-grab active:cursor-grabbing p-1 rounded hover:bg-muted"
                         {...(dragListeners ?? {})}
                         {...(dragAttributes ?? {})}
                     >

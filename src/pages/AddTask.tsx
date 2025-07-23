@@ -88,7 +88,9 @@ const AddTask = () => {
 
         setIsSubmitting(true);
         dispatch({ type: "ADD_TASK", payload: newTask })
-        toast.success("Task added successfully")
+        setTimeout(() => {
+            toast.success("Task added successfully");
+        }, 1500);
 
         // Reset form
         setTitle("")

@@ -109,7 +109,9 @@ const EditTask = () => {
 
         setIsSubmitting(true);
         dispatch({ type: "EDIT_TASK", payload: updatedTask });
-        toast.success("Task updated successfully!");
+        setTimeout(() => {
+            toast.success("Task updated successfully!");
+        }, 1500);
 
         setTimeout(() => {
             setIsSubmitting(false);
@@ -121,9 +123,9 @@ const EditTask = () => {
 
     if (!task) {
         return (
-        <p className="text-center text-muted-foreground py-20">
-            Task not found
-        </p>
+            <p className="text-center text-muted-foreground py-20">
+                Task not found
+            </p>
         );
     }
 

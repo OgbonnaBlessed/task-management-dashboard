@@ -3,10 +3,12 @@ import { LayoutDashboard, ListChecks, PanelLeft, FilePlus, BadgeCheck, Hourglass
 import { Link, useLocation } from 'react-router-dom'
 import Logo from '../assets/Logo.png'
 import { cn } from '@/lib/utils';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 const AppSidebar = () => {
     const location = useLocation();
-    const { toggleSidebar } = useSidebar()
+    const { toggleSidebar } = useSidebar();
+    const isMobile = useIsMobile();
 
     const navLinks = [
         { icon: LayoutDashboard, label: 'Dashboard', to: '/' },
@@ -69,6 +71,9 @@ const AppSidebar = () => {
                                 >
                                     <Link
                                         to={link.to}
+                                        onClick={() => {
+                                            if (isMobile) toggleSidebar()
+                                        }}
                                         className='relative flex items-center hover:bg-[#6C5CE7]/50'
                                     >
                                         <link.icon />

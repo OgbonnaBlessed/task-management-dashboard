@@ -50,7 +50,7 @@ const TaskList: React.FC<TaskListProps> = ({ filter, title, showHeader = true })
         useSensor(PointerSensor),
         useSensor(TouchSensor, {
             activationConstraint: {
-                delay: 5000,
+                delay: 200,
                 tolerance: 5,
             },
         })
