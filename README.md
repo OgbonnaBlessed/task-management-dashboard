@@ -204,8 +204,8 @@ src/
    git clone https://github.com/your-repo.git
 2. Create a new feature branch:
    ```bash
-   git checkout develop
-   git pull origin develop
+   git checkout main
+   git pull origin main
    git checkout -b feature/branch-name
 3. Commit your changes:
    ```bash
