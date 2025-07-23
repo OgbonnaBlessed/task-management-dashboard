@@ -35,7 +35,7 @@ const TaskCard: React.FC<TaskCardProps> = ({ task, dragAttributes, dragListeners
 
     return (
         <Card className="transition-all">
-            <CardHeader className="flex flex-row justify-between items-start">
+            <CardHeader className="flex md:flex-row flex-col max-md:gap-2 justify-between items-start">
                 <div className="flex items-start gap-2">
                     {/* Drag Handle */}
                     <div
@@ -68,7 +68,7 @@ const TaskCard: React.FC<TaskCardProps> = ({ task, dragAttributes, dragListeners
                 </Badge>
             </CardHeader>
 
-            <CardContent className="flex md:flex-row flex-col justify-between md:items-center items-start">
+            <CardContent className="flex md:flex-row flex-col max-md:gap-2 justify-between md:items-center items-start">
                 <div className="text-sm text-muted-foreground">
                     Due: {format(new Date(task.dueDate), "PPP")}
                 </div>
