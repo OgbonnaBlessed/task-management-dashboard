@@ -56,6 +56,7 @@ const AppSidebar = () => {
                         return (
                             <SidebarMenuItem
                                 key={link.to}
+                                data-testid={`menu-item-${link.label.toLowerCase().replace(/\s+/g, '-')}`}
                                 className={cn(
                                     "group-data-[collapsible=icon]:flex group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:py-4 hover:bg-[#6C5CE7]/50 transition-all duration-300 ease-in-out",
                                     isActive && "bg-[#6C5CE7]/20"
