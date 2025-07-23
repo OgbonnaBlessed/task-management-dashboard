@@ -68,7 +68,7 @@ const TaskCard: React.FC<TaskCardProps> = ({ task, dragAttributes, dragListeners
                 </Badge>
             </CardHeader>
 
-            <CardContent className="flex justify-between items-center">
+            <CardContent className="flex md:flex-row flex-col justify-between md:items-center items-start">
                 <div className="text-sm text-muted-foreground">
                     Due: {format(new Date(task.dueDate), "PPP")}
                 </div>
